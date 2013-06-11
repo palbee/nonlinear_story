@@ -1,0 +1,20 @@
+<!doctype html>
+<title>Contribute a word.</title>
+<p>
+<h2>You can start a new story...</h2>
+<p><form action="contribute" method="POST" accept-charset="utf-8">
+    <input type="text" name="contribution" value="" id="contribution" maxlength="80">
+     <p><input type="submit" value="Submit"></p>
+</form></p>
+
+{% for last_word in last_words %}
+{% if loop.first %} <h2>You can also submit to an existing story</h2><p>Such as this one...</p>
+{% else %}
+<p>or this one...</p>
+{% endif %}
+<p><form action="contribute" method="POST" accept-charset="utf-8">
+    {{last_word.corpus()}}<input type="text" name="contribution" value="" id="contribution" maxlength="80">
+    <input type="hidden" name="last_word", value="{{last_word.id}}">
+    <p><input type="submit" value="Submit"></p>
+</form></p>
+{% endfor %}
