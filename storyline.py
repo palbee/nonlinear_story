@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """Silly application for generating colloborative prose and poetry."""
 
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect
 from models import db
 from models import User, Word
 
@@ -12,7 +12,10 @@ db.create_all()
 @app.route('/')
 def show_a_story():
     number_of_words = db.session.query(Word).count()
-    corpus = db.session.query(Word).get(number_of_words).corpus()
+    try:
+        corpus = db.session.query(Word).get(number_of_words).corpus()
+    except Exception as e:
+        corpus = redirect("/contribute")
     return corpus
 
 @app.route('/contribute',methods=['POST', 'GET'])
